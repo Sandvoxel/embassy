@@ -20,6 +20,7 @@ Time driver:
 
 I2C:
 - fix: stm32/i2c v2: disable own-address recognition before changing an enabled OA1/OA2 address, addressing mode, or OA2 mask.
+- fix: stm32/i2c v2: the async master and slave transfers of a driver from `I2c::new_no_dma` panicked on `Option::unwrap()` for its missing DMA channel whenever they moved data. They now move each byte on the TXIS/RXNE interrupt. v1 still panics.
 - fix: stm32/i2c v2: an async slave `respond_to_write` that received more than its buffer holds timed out while discarding the extra bytes, because nothing woke it for them, and could leave the last one in RXDR. It now wakes on every byte and reads a byte that arrived with the STOP.
 
 USART:
